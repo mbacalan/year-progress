@@ -43,3 +43,21 @@ fn main() {
 
     println!("Year Progress: {:.2}%", year_progress.get() * 100.0);
 }
+
+#[cfg(test)]
+mod tests {
+    use chrono::TimeZone;
+    use super::*;
+
+    #[test]
+    fn past_year_progress() {
+        let year_progress = YearProgress::new(Utc.with_ymd_and_hms(2022, 12, 31, 0, 0, 0).unwrap());
+        assert_eq!(year_progress.get() * 100.0, 100.00);
+    }
+
+    #[test]
+    fn future_year_progress() {
+        let year_progress = YearProgress::new(Utc.with_ymd_and_hms(2030, 1, 1, 0, 0, 0).unwrap());
+        assert_eq!(year_progress.get() * 100.0, 0.00);
+    }
+}
