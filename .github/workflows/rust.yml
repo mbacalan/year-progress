@@ -1,0 +1,29 @@
+name: Update Year Progress
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cargo build --verbose
+    - name: Test
+      run: cargo test --verbose
+    - name: Update README
+      run: |
+        cargo run -rq > README.md
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m "actions: Update README"
+        git push
