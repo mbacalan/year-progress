@@ -1,1 +1,1 @@
-Year Progress: 59.45%
+Year Progress: 59.73%
